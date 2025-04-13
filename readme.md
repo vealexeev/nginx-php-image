@@ -1,3 +1,7 @@
+## Nginx and PHP 8.4 Docker Image
+
+This image contains Nginx and PHP 8.4 for running PHP web applications.
+
 ## Build image
 
 	docker build -t nginx-php .

@@ -1,16 +1,15 @@
-FROM php:7.1-fpm
+FROM php:8.4-fpm
 
 WORKDIR /var/www
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
-        libfreetype6-dev libjpeg62-turbo-dev libpng12-dev \
+        libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
         libcurl4-gnutls-dev \
 		supervisor sendmail nginx \
 		git unzip \
 	&& rm -rf /var/lib/apt/lists/* \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install curl pdo_mysql mbstring gd \
-    && sed -i 's/\[\:\:\]\:9000/\/var\/run\/php7-fpm.sock/g' /usr/local/etc/php-fpm.conf \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 	&& php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
 	&& php -r "unlink('composer-setup.php');" \
